@@ -8,6 +8,9 @@
  * since some of these tests may require DOM elements. We want
  * to ensure they don't run until the DOM is ready.
  */
+
+'use strict';
+
 $(function() {
     /* This is our first test suite - a test suite just contains
      * a related set of tests. This suite is all about the RSS
@@ -32,11 +35,22 @@ $(function() {
          * and that the URL is not empty.
          */
 
+        it('are URLS defined, not empty and valid in all feeds', function() {
+            for (var i = 0; i < allFeeds.length; i++) {
+                expect(checkForURL(allFeeds[i])).toBe(true);
+            }
+        });
+
 
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
+        it('are feed names defined and not empty in all feeds', function() {
+            for (var j = 0; j < allFeeds.length; j++) {
+                expect(checkForName(allFeeds[j])).toBe(true);
+            }
+        });
     });
 
 
@@ -90,3 +104,39 @@ $(function() {
      * Remember, loadFeed() is asynchronous.
      */
 }());
+
+/**
+ * @description Checks if a feed object has a valid URL
+ * @param {Object} feedObject - Feed object is a JSON object that we suspect has a url node with valid url content
+ */
+var checkForURL = function(feedObject) {
+    // Reference to regex: https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
+    // Less restrictive version chosen.
+    var urlRegex = new RegExp(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/);
+    // Check that the feed object has the node url - if not, we cannot run opperations on an undefined
+    if (feedObject.hasOwnProperty('url')) {
+        if (feedObject.url.match(urlRegex)) {
+            return true;
+        }
+    }
+
+    // Return false in any case true isn't returned
+    return false;
+}
+
+/**
+ * @description Checks if a feed object has a valid name object and content
+ * @param {Object} feedObject - Feed object is a JSON object that we suspect has a name node with valid name content
+ */
+var checkForName = function(feedObject) {
+    // Check that the feed object has the node name - if not, .length will return an error
+    if (feedObject.hasOwnProperty('name')) {
+        // A valid name has at least 2 characters in it like GV for example
+        if (feedObject.name.length >= 2) {
+            return true;
+        }
+    }
+
+    // Return false in any case true isn't returned
+    return false;
+}
