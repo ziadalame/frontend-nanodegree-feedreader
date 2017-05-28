@@ -36,11 +36,15 @@ $(function () {
          */
 
         it('are URLS defined, not empty and valid in all feeds', function () {
+
             // Regex credit: https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
             var urlRegex = new RegExp(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/);
+
             for (var i = 0; i < allFeeds.length; i++) {
+
                 // URL should be defined in the object
                 expect(allFeeds[i].url).toBeDefined();
+
                 // Checking for valid URL via Regex
                 expect(allFeeds[i].url).toMatch(urlRegex);
             }
@@ -56,7 +60,9 @@ $(function () {
                 // Name should be defined in the object
                 expect(allFeeds[j].name).toBeDefined();
 
+                // Temporary variable to edit on the feed name
                 var testName = allFeeds[j].name;
+
                 // A valid name is at least 2 characters
                 // remove spaces from string and check if the length is still greater than 1
                 // this is because a string can be made of spaces only and pass the test
@@ -84,12 +90,14 @@ $(function () {
 
         // Check for initial visibility state of menu
         it('Menu is hidden by default', function () {
+
             // If the body has the "menu-hidden" class, the menu will be hidden
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
 
         // Check if menu toggles on click
         it('Menu changes visibility on menu item click', function () {
+
             // Clicking the first time shoud show the menu by removing the class "menu-hidden" from the body tag
             $('.menu-icon-link').click();
             expect($('body').hasClass('menu-hidden')).toBe(false);
@@ -119,8 +127,11 @@ $(function () {
         });
 
         it('checks that loadFeeds loads at least one entry element within the feed container', function (done) {
+
             // check for the number of entries
             expect($('.feed .entry').length).toBeGreaterThan(0);
+
+            // All done
             done();
         });
     });
@@ -140,11 +151,14 @@ $(function () {
 
         // Wait till feed is loaded
         beforeEach(function (done) {
+
             // Get intial content
             loadFeed(0, function () {
+
                 // save rendered content
                 initialTitle = $('.header-title').html();
                 initialFirstEntry = $('.feed .entry').first().html();
+
                 // Get new content
                 loadFeed(1, function () {
                     // Ready for testing
@@ -154,10 +168,13 @@ $(function () {
         });
 
         it('checks that content has changed when new feed is loaded', function (done) {
+
             // Check id title has changed
             expect(initialTitle).not.toEqual($('.header-title').html());
+
             // Check if content has changed
             expect(initialFirstEntry).not.toEqual($('.feed .entry').first().html());
+
             // All done
             done();
         });
