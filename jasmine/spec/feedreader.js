@@ -132,4 +132,35 @@ $(function () {
      * Remember, loadFeed() is asynchronous.
      */
 
+
+    describe('New Feed Selection', function () {
+
+        // Get the initial title, and intial entry to make sure the title changes with the feed list
+        var initialTitle, initialFirstEntry;
+
+        // Wait till feed is loaded
+        beforeEach(function (done) {
+            // Get intial content
+            loadFeed(0, function () {
+                // save rendered content
+                initialTitle = $('.header-title').html();
+                initialFirstEntry = $('.feed .entry').first().html();
+                // Get new content
+                loadFeed(1, function () {
+                    // Ready for testing
+                    done();
+                });
+            });
+        });
+
+        it('checks that content has changed when new feed is loaded', function (done) {
+            // Check id title has changed
+            expect(initialTitle).not.toEqual($('.header-title').html());
+            // Check if content has changed
+            expect(initialFirstEntry).not.toEqual($('.feed .entry').first().html());
+            // All done
+            done();
+        });
+    });
+
 }());
