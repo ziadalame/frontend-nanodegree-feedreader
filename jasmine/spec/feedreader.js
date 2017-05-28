@@ -11,12 +11,12 @@
 
 'use strict';
 
-$(function() {
+$(function () {
     /* This is our first test suite - a test suite just contains
      * a related set of tests. This suite is all about the RSS
      * feeds definitions, the allFeeds variable in our application.
      */
-    describe('RSS Feeds', function() {
+    describe('RSS Feeds', function () {
         /* This is our first test - it tests to make sure that the
          * allFeeds variable has been defined and that it is not
          * empty. Experiment with this before you get started on
@@ -24,7 +24,7 @@ $(function() {
          * allFeeds in app.js to be an empty array and refresh the
          * page?
          */
-        it('are defined', function() {
+        it('are defined', function () {
             expect(allFeeds).toBeDefined();
             expect(allFeeds.length).not.toBe(0);
         });
@@ -35,7 +35,7 @@ $(function() {
          * and that the URL is not empty.
          */
 
-        it('are URLS defined, not empty and valid in all feeds', function() {
+        it('are URLS defined, not empty and valid in all feeds', function () {
             // Regex credit: https://stackoverflow.com/questions/3809401/what-is-a-good-regular-expression-to-match-a-url
             var urlRegex = new RegExp(/(http(s)?:\/\/.)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/);
             for (var i = 0; i < allFeeds.length; i++) {
@@ -51,11 +51,11 @@ $(function() {
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
-        it('are feed names defined and not empty in all feeds', function() {
+        it('are feed names defined and not empty in all feeds', function () {
             for (var j = 0; j < allFeeds.length; j++) {
                 // Name should be defined in the object
                 expect(allFeeds[j].name).toBeDefined();
-                
+
                 var testName = allFeeds[j].name;
                 // A valid name is at least 2 characters
                 // remove spaces from string and check if the length is still greater than 1
@@ -80,16 +80,16 @@ $(function() {
      * clicked and does it hide when clicked again.
      */
 
-    describe('The Menu', function() {
+    describe('The Menu', function () {
 
         // Check for initial visibility state of menu
-        it('Menu is hidden by default', function() {
+        it('Menu is hidden by default', function () {
             // If the body has the "menu-hidden" class, the menu will be hidden
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });
 
         // Check if menu toggles on click
-        it('Menu changes visibility on menu item click', function() {
+        it('Menu changes visibility on menu item click', function () {
             // Clicking the first time shoud show the menu by removing the class "menu-hidden" from the body tag
             $('.menu-icon-link').click();
             expect($('body').hasClass('menu-hidden')).toBe(false);
@@ -109,10 +109,27 @@ $(function() {
      * the use of Jasmine's beforeEach and asynchronous done() function.
      */
 
+    describe('Initial Entries', function () {
+
+        // Wait till feed is loaded
+        beforeEach(function (done) {
+            loadFeed(0, function () {
+                done();
+            });
+        });
+
+        it('checks that loadFeeds loads at least one entry element within the feed container', function (done) {
+            // check for the number of entries
+            expect($('.feed .entry').length).toBeGreaterThan(0);
+            done();
+        });
+    });
+
     /* TODO: Write a new test suite named "New Feed Selection" */
 
     /* TODO: Write a test that ensures when a new feed is loaded
      * by the loadFeed function that the content actually changes.
      * Remember, loadFeed() is asynchronous.
      */
+
 }());
