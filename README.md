@@ -6,8 +6,11 @@ In this project [Udacity](https://udacity.com) has provided a web-based applicat
 
 ## Getting started
 
-- To view project out come, head to: [FeedReader With Jasmin Tests](https://ziadalame.github.io/frontend-nanodegree-feedreader/index.html)
-- To deploy code, follow the below steps:
+- To view project:
+-- Go to: [FeedReader With Jasmin Tests](https://ziadalame.github.io/frontend-nanodegree-feedreader/index.html)
+-- Load unsafe scripts (for https compliance)
+-- Scroll to the end of the page to see the Jasmine test results
+- To deploy on your machine, follow the below steps:
 
 ```
 $ git clone git@github.com:ziadalame/frontend-nanodegree-feedreader.git
